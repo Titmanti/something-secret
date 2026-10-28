@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { TruckType } from '../constants/truck-type.constants.js';
 import { TruckEquipment } from '../constants/truck-equipment.constants.js';
+import { TruckType } from '../constants/truck-type.constants.js';
 import type { TruckProperties } from '../interfaces/truck-props.interface.js';
 import { TruckAggregate } from './truck.aggregate.js';
 
@@ -48,8 +48,8 @@ describe('TruckAggregate', () => {
     const result = TruckAggregate.create(
       validTruck({
         equipment: [
-          { countable: false, type: TruckEquipment.LIFT_GATE, count: undefined as never },
-          { countable: false, type: TruckEquipment.LIFT_GATE, count: undefined as never },
+          { countable: false, type: TruckEquipment.LIFT_GATE },
+          { countable: false, type: TruckEquipment.LIFT_GATE },
         ],
       }),
     );
