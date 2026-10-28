@@ -1,6 +1,6 @@
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { GlobalConfigs, RedisConfig } from '../interfaces/index.js';
-import { Logger } from '@nestjs/common';
 
 export function redisFactory(
   configService: ConfigService<GlobalConfigs>,
@@ -12,11 +12,8 @@ export function redisFactory(
     throw new Error('Redis configuration is missing');
   }
 
-  logger.debug(`Redis configuration loaded: ${JSON.stringify(config)}`);
+  // Never log credentials from configuration.
+  logger.debug('Redis configuration loaded');
 
-  return {
-    config: {
-      ...config,
-    },
-  };
+  return { ...config };
 }

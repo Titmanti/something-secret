@@ -1,6 +1,6 @@
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { GlobalConfigs, DatabaseConfig } from '../interfaces/index.js';
-import { Logger } from '@nestjs/common';
 
 export function databaseFactory(
   configService: ConfigService<GlobalConfigs>,
@@ -12,7 +12,8 @@ export function databaseFactory(
     throw new Error('Database configuration is missing');
   }
 
-  logger.debug(`Database configuration loaded: ${JSON.stringify(config)}`);
+  // Do not serialize connection options: they contain credentials.
+  logger.debug('Database configuration loaded');
 
   return config;
 }

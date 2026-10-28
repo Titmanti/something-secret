@@ -1,7 +1,8 @@
-import { Module, Global } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { redisFactory } from '@/config/factories/index.js';
+import type { GlobalConfigs } from '@/config/interfaces/index.js';
 import { QUEUE } from './constants/index.js';
 
 @Global()
@@ -10,8 +11,8 @@ import { QUEUE } from './constants/index.js';
     BullModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: () => ({
-        connection: redisFactory,
+      useFactory: (configService: ConfigService<GlobalConfigs>) => ({
+        connection: redisFactory(configService),
         defaultJobOptions: {
           attempts: 3,
           backoff: {
@@ -22,10 +23,7 @@ import { QUEUE } from './constants/index.js';
         },
       }),
     }),
-
-    BullModule.registerQueue(
-      { name: QUEUE.EMAIL },
-    ),
+    BullModule.registerQueue({ name: QUEUE.EMAIL }),
   ],
 })
 export class QueueModule {}

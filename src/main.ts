@@ -1,20 +1,26 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module.js';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module.js';
 
-async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+  );
 
-  const config = new DocumentBuilder()
-    .setTitle(`DLH Trans landing API`)
-    .setDescription(`Backend documentation`)
-    .setVersion(`1.0.0`)
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('DLH Trans API')
+    .setDescription('Backend API documentation')
+    .setVersion('1.0.0')
     .addBearerAuth()
-    .build()
-  const document = SwaggerModule.createDocument(app, config);
+    .build();
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
+  const port = Number(process.env.PORT ?? 3000);
+  await app.listen(port, '0.0.0.0');
 }
+
 await bootstrap();

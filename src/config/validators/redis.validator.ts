@@ -1,18 +1,17 @@
-import { Transform } from 'class-transformer';
-import { IsInt, IsString, Min, Max } from 'class-validator';
+import { IsInt, IsString, Max, Min } from 'class-validator';
 
 export class RedisConfigValidator {
   @IsString()
-  public REDIS_HOST: string;
+  public REDIS_HOST!: string;
 
   @IsInt()
   @Min(1)
   @Max(65535)
-  public REDIS_PORT: number;
+  public REDIS_PORT!: number;
 
   @IsString()
-  public REDIS_USERNAME: string;
+  public REDIS_USERNAME!: string;
 
   @IsString()
-  public REDIS_PASSWORD: string;
+  public REDIS_PASSWORD!: string;
 }
