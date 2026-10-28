@@ -2,19 +2,19 @@ import { IsInt, IsString, Max, Min } from 'class-validator';
 
 export class DatabaseConfigValidator {
   @IsString()
-  DATABASE_HOST: string;
+  DATABASE_HOST!: string;
 
   @IsInt()
   @Min(1)
   @Max(65535)
-  DATABASE_PORT: number;
+  DATABASE_PORT!: number;
 
   @IsString()
-  DATABASE_USERNAME: string;
+  DATABASE_USERNAME!: string;
 
   @IsString()
-  DATABASE_PASSWORD: string;
+  DATABASE_PASSWORD!: string;
 
   @IsString()
-  DATABASE_NAME: string;
+  DATABASE_NAME!: string;
 }
