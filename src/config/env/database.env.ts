@@ -5,7 +5,6 @@ import { validateEnv } from '@/common/utils/index.js';
 
 export const databaseEnv = registerAs<DatabaseConfig>('database', () => {
   const validatedEnv = validateEnv(process.env, DatabaseConfigValidator);
-
   const isDev = process.env.NODE_ENV === 'development';
 
   return {
@@ -16,7 +15,8 @@ export const databaseEnv = registerAs<DatabaseConfig>('database', () => {
     password: validatedEnv.DATABASE_PASSWORD,
     database: validatedEnv.DATABASE_NAME,
     autoLoadEntities: true,
-    synchronize: true,
+    // Schema synchronization is for local development only. Production must use migrations.
+    synchronize: isDev,
     logging: isDev ? ['query', 'error'] : ['error'],
     extra: {
       max: 20,
